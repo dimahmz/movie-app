@@ -4,9 +4,6 @@
 <Loading v-if="$fetchState.pending"/>
 <div v-else 
   class="pb-5 bg-black">
-  
-  <!-- head section -->
-   <!-- <homeHead/> -->
     <!-- search input -->
   <div class="absolute top-20 left-14 " >
 
@@ -17,6 +14,8 @@
    @click="$fetch">serch
    </button>
   </div>
+
+
   <!-- MOvies grid -->
   
  
@@ -30,17 +29,10 @@ v-if="MOVIES.length !=0  "  id="movies-grid"
      <NuxtLink :to="{ name: 'movieid' , params:{movieid:movie.id}}">
         <filmCard :objMovies="movie" />
      </NuxtLink>
-  </div>
-  <!-- tv shows -->
-  <div v-for="(tv, ind) in TVShows " 
-       :key="ind">
-     <NuxtLink :to="{ name: 'tvshowid' , params:{tvshowid:tv.id}}">
-        <tvshowCard :objTvShow="tv" />
-     </NuxtLink>
-  </div>
-  <!-- <div   >toppp</div> -->
+    </div>
 </section  >
 <div v-else >
+ <!-- can't find component -->
  <movieError/>
 </div>
 
@@ -51,20 +43,17 @@ v-if="MOVIES.length !=0  "  id="movies-grid"
 
 <script>
 import axios from 'axios'
-import TvshowCard from '../components/tvshowCard.vue'
 export default {
     name: "IndexPage",
     data() {
         return {
             MOVIES: [],
-            TVShows: [],
             query: ""
         };
     },
     async fetch() {
         if (this.query === "") {
             await this.fetchMovies();
-            await this.fetchShows();
             return;
         }
         await this.quearedMovie();
@@ -76,27 +65,18 @@ export default {
         async quearedMovie() {
             let movieData = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
             let searchedMovieObj = await movieData;
-            console.log(searchedMovieObj.data.results);
-            this.MOVIES = [],
-                searchedMovieObj.data.results.forEach((movie) => { this.MOVIES.push(movie); });
+            // console.log(searchedMovieObj.data.results)
+            this.MOVIES = []
+           searchedMovieObj.data.results.forEach((movie) => { this.MOVIES.push(movie); })
         },
         async fetchMovies() {
             this.MOVIES = [];
             let moviesData = axios.get("https://api.themoviedb.org/3/movie/top_rated?api_key=c695182479fa9880b1a52cd4525a0caf");
             let moviesObj = await moviesData;
             moviesObj.data.results.forEach((movie) => { this.MOVIES.push(movie); });
-            //  console.log(this.MOVIES.lenght)
+            //  console.log(this.MOVIES)
         },
-        async fetchShows() {
-            let tvshowsData = axios.get("https://api.themoviedb.org/3/tv/popular?api_key=c695182479fa9880b1a52cd4525a0caf");
-            let mtvshowsObj = await tvshowsData;
-            this.TVShows = [];
-            mtvshowsObj.data.results.forEach((tv) => { this.TVShows.push(tv); });
-            console.log(this.TVShows);
-        }
-    }
-    // https://api.themoviedb.org/3/tv/popular?api_key=<<api_key>>&language=en-US&page=1
-    ,
-    components: { TvshowCard }
+      
+    } 
 }
 </script>

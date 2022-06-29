@@ -15,6 +15,23 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  theme: {
+    screens: {
+      'sm': '646px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
+    extend: {
+      spacing: {
+        '128': '32rem',
+      }
+    },
+    maxWidth: {
+      '20': '10rem',
+    }
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
