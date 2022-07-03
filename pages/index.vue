@@ -1,102 +1,57 @@
 <template >
-<div>
-<NavsNavbar/>
-<Loading v-if="$fetchState.pending"/>
-<div v-else 
-  class="pb-5 bg-black">
-  
-  <!-- head section -->
-   <!-- <homeHead/> -->
-    <!-- search input -->
-  <div class="absolute top-20 left-14 " >
 
-  <input type="text" class="" 
-   @keyup.enter="$fetch" 
-   v-model="query" >
-  <button class="rounded py-1 px-6 bg-indigo-900"
-   @click="$fetch">serch
-   </button>
-  </div>
-  <!-- MOvies grid -->
-  
- 
-<section 
-class="max-w-4xl py-7 justify-center mx-10 bg-grey mx-auto  my-10 flex flex-wrap gap-5 "
-v-if="MOVIES.length !=0  "  id="movies-grid" 
-  >
-<!-- movies  -->
-  <div v-for="(movie , index) in MOVIES" 
-       :key="index">
-     <NuxtLink :to="{ name: 'movieid' , params:{movieid:movie.id}}">
-        <filmCard :objMovies="movie" />
-     </NuxtLink>
-  </div>
-  <!-- tv shows -->
-  <div v-for="(tv, ind) in TVShows " 
-       :key="ind">
-     <NuxtLink :to="{ name: 'tvshowid' , params:{tvshowid:tv.id}}">
-        <tvshowCard :objTvShow="tv" />
-     </NuxtLink>
-  </div>
-  <!-- <div   >toppp</div> -->
-</section  >
-<div v-else >
- <movieError/>
-</div>
+<div class="relative bg-black ">
+  <img 
+  class="h-screen w-full opacity-95 object-cover"
+   src="@/static/images/backimg.jpg" alt="random movies on a single image ">
+   
 
+  <div 
+    class="absolute w-full top-16 md:top-24   text-white p-8">
+       <h1 
+       class="text-white text-4xl md:font-black font-extrabold text-center"
+          >welcom to WMoviE </h1>
+      <p style="max-width:600px;" 
+        class="text-2xl mx-auto text-center tracking-wide     font-medium font-medium mt-16 sm:mt-32 " >Watch movies online free full movie - Watch hd movies online and   download free hd movies online with WMoviE With our free streaming service, you can watch full movies online without registration.</p>
+    <div class="flex justify-around items-center my-16  sm:justify-center sm:space-x-10" >
+       <button> 
+          <NuxtLink 
+          style=""
+          class="rounded-lg bg-black px-4 py-2 border-2 m-2 mt-4 border-black text-white hover:bg-gray-900 hover:text-gray-100 hover:border-white duration-200"
+          to="/Movies"  > MOVIES  </NuxtLink>
+             </button> 
+      <button> 
+         <NuxtLink  
+         style=""
+         class="rounded-lg bg-black px-4 py-2 border-2 m-2 mt-4 border-black text-white hover:bg-gray-900 hover:text-gray-100 hover:border-white duration-200"
+         to="/Tvshows"  >TVSHOWS </NuxtLink>
+      </button>
+    </div>
 </div>
-</div>
+  </div>
 
 </template>
 
+
 <script>
-import axios from 'axios'
-import TvshowCard from '../components/tvshowCard.vue'
 export default {
-    name: "IndexPage",
-    data() {
-        return {
-            MOVIES: [],
-            TVShows: [],
-            query: ""
-        };
-    },
-    async fetch() {
-        if (this.query === "") {
-            await this.fetchMovies();
-            await this.fetchShows();
-            return;
-        }
-        await this.quearedMovie();
-    },
-    methods: {
-        topScroll() {
-            window.scrollTo(0, 0);
-        },
-        async quearedMovie() {
-            let movieData = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
-            let searchedMovieObj = await movieData;
-            console.log(searchedMovieObj.data.results);
-            this.MOVIES = [],
-                searchedMovieObj.data.results.forEach((movie) => { this.MOVIES.push(movie); });
-        },
-        async fetchMovies() {
-            this.MOVIES = [];
-            let moviesData = axios.get("https://api.themoviedb.org/3/movie/top_rated?api_key=c695182479fa9880b1a52cd4525a0caf");
-            let moviesObj = await moviesData;
-            moviesObj.data.results.forEach((movie) => { this.MOVIES.push(movie); });
-            //  console.log(this.MOVIES.lenght)
-        },
-        async fetchShows() {
-            let tvshowsData = axios.get("https://api.themoviedb.org/3/tv/popular?api_key=c695182479fa9880b1a52cd4525a0caf");
-            let mtvshowsObj = await tvshowsData;
-            this.TVShows = [];
-            mtvshowsObj.data.results.forEach((tv) => { this.TVShows.push(tv); });
-            console.log(this.TVShows);
-        }
-    }
-    // https://api.themoviedb.org/3/tv/popular?api_key=<<api_key>>&language=en-US&page=1
-    ,
-    components: { TvshowCard }
+  
 }
+
 </script>
+<style>
+/* transition styling  */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+/* active links styling  */
+.nuxt-link-exact-active{
+   border-bottom: 1px solid  #fff;
+   transition: all .5s ease-in-out;
+}
+</style>

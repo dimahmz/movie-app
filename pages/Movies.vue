@@ -64,7 +64,7 @@
 import axios from 'axios'
 export default {
    scrollToTop: false,
-    transition:  'fade',
+   
 
     data() {
         return {
@@ -95,6 +95,7 @@ export default {
             let movieData = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
             let searchedMovieObj = await movieData;
             // console.log(searchedMovieObj.data.results)
+            this.query=""
             this.MOVIES = []
            searchedMovieObj.data.results.forEach((movie) => { this.MOVIES.push(movie); })
           //  console.log( this.MOVIES[0].genre_ids)

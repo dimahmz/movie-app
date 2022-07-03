@@ -1,19 +1,25 @@
-<template>
-  <nav  class="relative w-full py-3 px-4 bg-indigo-900 text-indigo-50 flex justify-between text-lg font-light font-sans">
-   <NuxtLink to="/"><h1>WMoviE</h1></NuxtLink>
+<template  >
+  <nav
+    id="top"
+    style="background:#14532d;"
+    class="relative w-full py-3 px-4 bg-bulest text-indigo-50 flex justify-between font-sans  shadow-indigo-500">
+   <NuxtLink to="/">
+    <h1  class="font-black hover:text-black text-2xl tracking-widest" >WMoviE</h1>
+    </NuxtLink>
    <!--  @click="toggleBar"  -->
     <NavsSideBar class="block sm:hidden " v-if="showSideBar"/>
    <div class="sm:hidden inline-block">
     <div @click="toggleBar" >
-      <NavsIconBar  />
+      <iconsIconBar class="hover:text-black" />
     </div>
    </div>
-   <div class="hidden w-3/5 justify-between sm:flex">
+   <div class="hidden text-xl font-meduim w-3/5 justify-between sm:flex">
     <div class="flex w-3/5 justify-between">
-      <NuxtLink to="/Movies"  > MOVIES </NuxtLink>
-      <NuxtLink  to="/Tvshows"  >TVSHOWS </NuxtLink>
+      <NuxtLink class="hover:text-black"   to="/Movies"> MOVIES </NuxtLink>
+      <NuxtLink class="hover:text-black" to="/Tvshows">TVSHOWS </NuxtLink>
     </div>
-    <a href="">ABOUT</a>
+     <NuxtLink class="hover:text-black"   to="/about">ABOUT </NuxtLink>
+    
    </div>
    
 </nav>
