@@ -180,7 +180,7 @@
 					</svg>
 
 				</div>
-				<p class="text-sm md:text-base text-yellow-300 p-2 mb-4">we can't find this movie!
+				<p class="text-sm md:text-base text-yellow-300 p-2 mb-4">we can't find this {{this.type}}!
 				</p>
 				<a href="/"
 					class="bg-transparent hover:bg-yellow-300 text-yellow-300 hover:text-white rounded shadow hover:shadow-lg py-2 px-4 border border-yellow-300 hover:border-transparent">
@@ -193,7 +193,7 @@
 
 <script>
 export default {
- name:"noFilm"
-
+ name:"noItem",
+  props:["type"]
 }
 </script>
