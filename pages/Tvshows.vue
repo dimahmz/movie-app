@@ -1,75 +1,107 @@
-<template>
-<div>
-    <NavsNavbar/>
-<!-- <Loading v-if="$fetchState.pending"/> -->
+<template >
+   <!-- loading while fetching -->
 <Loading v-if="$fetchState.pending"/>
-<div v-else 
-  class="pb-5 bg-black">
-   <div class="absolute top-20 left-14 " >
 
-  <input type="text" class="" 
-   @keyup.enter="$fetch" 
-   v-model="query" >
-  <button class="rounded py-1 px-6 bg-indigo-900"
-   @click="$fetch">serch
-   </button>
- </div>
-  <!-- tvshows grid -->
-  
-  <section 
-     class="max-w-4xl py-7 justify-center mx-10 bg-grey mx-auto 
-      my-10 flex flex-wrap gap-5 "
-      id="movies-grid" 
-      v-if="TVShows.length !=0 ">
-     <div v-for="(tv , index) in TVShows" 
-            :key="index">
-         <NuxtLink :to="{ name: 'tvshowid' , params:{tvshowid:tv.id}}">
-            <tvshowCard :objTvShow="tv" />
-         </NuxtLink>
-      </div>
 
-     </section  >
- <!-- can't find component -->
-    <div v-else >
-      <movieError/>
-     </div>
+<div v-else class="pb-5 pt-10 px-8 bg-black">
+
+ <!-- inputs section  -->
+  <div class="text-white flex flex-col items-center justify-center  space-x-0    py-6 max-w-4xl space-y-5  mx-auto md:flex-row  md:space-y-0 md:space-x-16  md:items-center" >
+   <div>
+       <h1 class="mb-4 text-lg">Find any TV shows </h1>
+
+       <input type="text" 
+        class="text-black px-2 shadow-sm w-48 h-7 border-gray-900  rounded-lg   mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-gray-900 " 
+         @keyup.enter="$fetch" 
+         v-model="query" >
+        <a href="#movies-grid"
+           @click="$fetch"
+            class="rounded-lg px-4 py-2 border-2 m-2 mt-4 border-gray-900 text-white hover:bg-gray-900 hover:text-gray-100  duration-200">
+         search</a>
+   </div>
+   <div> 
+      <h1 class="mb-4 text-lg">Select type</h1>
+      <select class="w-48 h-7 text-black  mb-4 rounded-lg py-1 px-2"     v-model="tvshowsType">
+         <option class=""  value="popular">  Popular</option>
+         <option class="" value="top_rated">top rated</option>
+          <option class="" value="on_the_air"> on the air</option>
+      </select>
+      <a href="#tvshows-grid" @click="$fetch"
+        class="rounded-lg px-4 py-2 border-2 m-2 border-gray-900   text-white hover:bg-gray-900 hover:text-gray-100 duration-200">search</a>
 
    </div>
-</div>
+
+  </div>
+
+<!-- tvshows grid -->
+  
+  <section 
+   class="max-w-4xl justify-center py-5  bg-gray mx-auto flex flex-wrap gap-5"
+   id="tvshows-grid" 
+     v-if="TVShows.length !=0 ">
+     <div v-for="(tv , index) in TVShows" :key="index">   
+      <div   v-if="tv.poster_path" >
+          <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`tvshow${tv.id}` }}">
+             <div class="relative">           
+                <Card :tvMovieObj="tv" type="tvshow" /> 
+             </div>   
+          </NuxtLink>
+       </div>      
+      </div>
+
+   </section  >
+
+ <!-- can't find component -->
+    <div v-else > 
+          <movieError  type="Tv Show"/>
+     </div>
+   </div>
 </template>
 
 <script>
  import axios from 'axios'
 export default {
+    scrollToTop: false,
  data(){
   return{
       TVShows: [],
-       query: ""
+       query: "",
+       tvshowsType:"popular"
   }
  },
+  head() {
+      return {
+        title: "TvShows page"
+    }
+    },
    
 async fetch(){
 
  if (this.query === "") {
-            await this.fetchShows();
+            await this.fetchShows(this.tvshowsType);
             return;
         }
      await this.queredTvshow()
-    },
+     this.query=""
+},
   methods:{
-     async fetchShows() {
-            let tvshowsData = axios.get("https://api.themoviedb.org/3/tv/popular?api_key=c695182479fa9880b1a52cd4525a0caf");
-            let tvshowsObj = await tvshowsData;
-            this.TVShows = [];
-            tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
-            console.log(this.TVShows);
-        },
+     async fetchShows(type) {
+      this.TVShows =[];
+      for(let i =1;i<5;i++){
+         let tvshowsData = axios.get(`https://api.themoviedb.org/3/tv/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=${i}`);
+         let tvshowsObj = await tvshowsData;
+         tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
+      }
+   //  console.log(this.TVShows);
+
+},
+
        async queredTvshow(){
-        let searchedTvshows= axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}"`);
+        let searchedTvshows= axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
             let tvshowsObj = await searchedTvshows;
             this.TVShows = [];
             tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
-            console.log(this.TVShows);
+            // console.log(this.TVShows);
 
        }
     }
@@ -81,5 +113,15 @@ async fetch(){
 </script>
 
 <style>
-
+select{
+      color:black;
+}
+option{
+   background:#14532d;
+   color:white;
+}
+option :hover{
+   color:white;
+    background:black;
+}
 </style>
