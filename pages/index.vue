@@ -35,23 +35,20 @@
 
 <script>
 export default {
-  
+   head() {
+      return {
+        title: "WMovie",
+      
+    }
+}
 }
 
 </script>
 <style>
-/* transition styling  */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+
 /* active links styling  */
 .nuxt-link-exact-active{
    border-bottom: 1px solid  #fff;
-   transition: all .5s ease-in-out;
+   transition: border .5s ease-in-out;
 }
 </style>

@@ -1,8 +1,11 @@
 <template >
-   <!-- loading while fetching -->
+
+<main   class="min-h-screen bg-black" >
+   
+<!-- error occurred while fetching -->
+<error v-if="$fetchState.error" type="error"/> 
+<!-- loading while fetching -->
 <Loading v-if="$fetchState.pending"/>
-
-
 <div v-else class="pb-5 pt-10 px-8 bg-black">
 
  <!-- inputs section  -->
@@ -14,10 +17,10 @@
         class="text-black px-2 shadow-sm w-48 h-7 border-gray-900  rounded-lg   mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-gray-900 " 
          @keyup.enter="$fetch" 
          v-model="query" >
-        <a href="#movies-grid"
+        <button href=""
            @click="$fetch"
             class="rounded-lg px-4 py-2 border-2 m-2 mt-4 border-gray-900 text-white hover:bg-gray-900 hover:text-gray-100  duration-200">
-         search</a>
+         search</button>
    </div>
    <div> 
       <h1 class="mb-4 text-lg">Select type</h1>
@@ -26,8 +29,8 @@
          <option class="" value="top_rated">top rated</option>
           <option class="" value="on_the_air"> on the air</option>
       </select>
-      <a href="#tvshows-grid" @click="$fetch"
-        class="rounded-lg px-4 py-2 border-2 m-2 border-gray-900   text-white hover:bg-gray-900 hover:text-gray-100 duration-200">search</a>
+      <button href="" @click="$fetch"
+        class="rounded-lg px-4 py-2 border-2 m-2 border-gray-900   text-white hover:bg-gray-900 hover:text-gray-100 duration-200">search</button>
 
    </div>
 
@@ -40,22 +43,23 @@
    id="tvshows-grid" 
      v-if="TVShows.length !=0 ">
      <div v-for="(tv , index) in TVShows" :key="index">   
-      <div   v-if="tv.poster_path" >
+      <div   v-if="tv.name && tv.poster_path" >
           <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`tvshow${tv.id}` }}">
              <div class="relative">           
                 <Card :tvMovieObj="tv" type="tvshow" /> 
              </div>   
           </NuxtLink>
-       </div>      
+      </div>      
       </div>
 
    </section  >
 
  <!-- can't find component -->
     <div v-else > 
-          <movieError  type="Tv Show"/>
+          <error type="Tv Show"/>
      </div>
    </div>
+</main>
 </template>
 
 <script>
@@ -82,7 +86,7 @@ async fetch(){
             return;
         }
      await this.queredTvshow()
-     this.query=""
+     
 },
   methods:{
      async fetchShows(type) {
@@ -92,14 +96,15 @@ async fetch(){
          let tvshowsObj = await tvshowsData;
          tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
       }
-   //  console.log(this.TVShows);
+    console.log(this.TVShows);
 
 },
 
        async queredTvshow(){
-        let searchedTvshows= axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
-            let tvshowsObj = await searchedTvshows;
-            this.TVShows = [];
+         let searchedTvshows= axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
+            let tvshowsObj = await searchedTvshows
+            this.query=""
+            this.TVShows = []
             tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
             // console.log(this.TVShows);
 

@@ -8,12 +8,12 @@
   </span>
    <h1 class="text-center mb-10 text-4xl font-bold tracking-widest md:mb-20" >{{title}}</h1>
 
-  <div  class="sm:flex sm:justify-between md:justify-around sm:mb-20">
+  <div  class="sm:flex  sm:justify-between md:justify-around sm:mb-28  ">
 
-    <div   class="sm:flex sm:justify-center" >
+    <div   class="self-center" >
        <img 
-       style=""
-       class=""
+       style="max-height:300px;"
+       class="mx-auto"
        :src="`https://image.tmdb.org/t/p/w500/${tvANDmovie.backdrop_path}`"   :alt="`tvshow image ${title}`"/>
     </div>
 
@@ -25,12 +25,11 @@
 
  </div>
 <!-- tvshow image -->
-<div  class="md:flex md:justify-evenly" >
+<div  class="md:flex md:justify-evenly items-center" >
 
 
   <div 
-   style=""
-   class="mx-auto">
+   class="flex justify-center">
     <img 
     class="inline-block"
     style="max-height:500px;"
@@ -41,9 +40,9 @@
  <div  class="sm:flex sm:justify-center" >
 
    <section
-      style="max-width:500px;"
+      style="max-width:600px;"
        class="py-10 px-5 flex flex-col text-2xl space-y-5 md:justify-center " >
-       <div  class="flex justify-between" >
+       <div  class="flex justify-between sm:space-x-10 md:pace-x-18" >
             <p>Popularity :</p>
             <p>{{tvANDmovie.popularity}}
             <IconsTrend class="inline-block text-blue-300 h-10 w-10 "/>
@@ -66,7 +65,7 @@
         <p>{{tvANDmovie.genres[0].name}}</p>
        </div>
         <div   class="flex justify-between"  >
-        <p>Spoken languag :</p>
+        <p>language :</p>
         <p>{{tvANDmovie.spoken_languages[0].english_name}}</p>
        </div>
         <div  class="flex justify-between" >
@@ -115,7 +114,7 @@ export default {
       else{
            this.title=the_tvANDmovie.name
            this.release=the_tvANDmovie.first_air_date
-           this.original_title==the_tvANDmovie.original_name
+           this.original_title=the_tvANDmovie.original_name
        }
      
     }

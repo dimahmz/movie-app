@@ -1,26 +1,22 @@
 <template>
-<div>
+<div class="min-h-screen absolute bg-black text-white flex justify-center items-center">
 
-  <h1>this is about page</h1>
+  <p   class="text-center text-2xl my-20 leading-relaxed px-20" >Hello, this is a simple movies and tvshows website built with  <a  class="underline" target="_blank" href="https://nuxtjs.org/">Nuxtjs</a> and <a class="underline"  target="_blank"  href="https://tailwindcss.com/">Tailwind</a>, and uses an <a  target="_blank" class="cursor-pointer underline" href="https://www.themoviedb.org/documentation/api">API</a> provided by the <a  target="_blank" class="cursor-pointer underline" href="https://www.themoviedb.org/">TMBD</a>, u can see source code on <a target="_blank"  class="underline" 
+    href="https://github.com/hamzaLap/movie-app">github</a>
+  </p>
 
-<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, vel. Voluptas, odit magnam officia placeat iste non provident quisquam hic repudiandae aliquid velit facilis recusandae omnis, cum inventore vel sapiente?
-</p>
-
-<section class="flex flex-col space-y-4 ">
-     <p class="" >2022</p> 
-     <p class="text-center flex " >built with <a href="">Nuxtjs</a>&      <a class="block      sm:inline-block"   href="">Tailwind</a></p>
-    <p>data provided by 
-    <a href="">TMBD</a></p>
-    <p> code <a href="">github</a></p>
-    </section>
 </div>
-
-
 </template>
 
 <script>
 export default {
   name:"about",
+   head() {
+      return {
+        title: "about website",
+      
+    }
+}
 
 }
 </script>

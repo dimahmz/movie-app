@@ -1,15 +1,11 @@
 <template >
+
+<main class="min-h-screen bg-black"  >
+<!-- error occurred while fetching -->
+<error v-if="$fetchState.error" type="error"/>
    <!-- loading while fetching -->
-    <Loading class="bg-black" v-if="$fetchState.pending" />
-
-
-<div v-else class="pb-5 pt-10 px-8 bg-black"  >
-     <!-- go up arrow -->
-       <!-- <span  @click="topScroll"  class="up" >
-      <iconsUp/>
-     </span> -->
-       <!--  input sections -->
-
+<Loading class="bg-black" v-if="$fetchState.pending" />
+<div v-else class="pb-5 pt-10 px-8 " >
 <div class="text-white flex flex-col items-center justify-center  space-x-0    py-6 max-w-4xl space-y-5  mx-auto md:flex-row  md:space-y-0 md:space-x-16  md:items-center" >
    <div>
        <h1 class="mb-4 text-lg">Find any TV shows </h1>
@@ -18,10 +14,10 @@
         class="text-black px-2 shadow-sm w-48 h-7 border-gray-900  rounded-lg   mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-gray-900 " 
          @keyup.enter="$fetch" 
          v-model="query" >
-        <a href="#movies-grid"
+        <button href=""
            @click="$fetch"
             class="rounded-lg px-4 py-2 border-2 m-2 mt-4 border-gray-900 text-white hover:bg-gray-900 hover:text-gray-100  duration-200">
-         search</a>
+         search</button>
    </div>
    <div> 
       <h1 class="mb-4 text-lg">Select type</h1>
@@ -31,8 +27,8 @@
                <option  value="now_playing">  now playing </option>
                <option  value="upcoming"> up coming</option>
       </select>
-      <a href="#movies-grid" @click="$fetch"
-        class="rounded-lg px-4 py-2 border-2 m-2 border-gray-900  text-white hover:bg-gray-900 hover:text-gray-100 duration-200">search</a>
+      <button href="" @click="$fetch"
+        class="rounded-lg px-4 py-2 border-2 m-2 border-gray-900  text-white hover:bg-gray-900 hover:text-gray-100 duration-200">search</button>
 
    </div>
   </div>
@@ -44,7 +40,7 @@
    v-if="MOVIES.length !=0 "  id="movies-grid" >
 
      <div v-for="(movie , index) in MOVIES" :key="index">
-       <div  v-if="movie.poster_path" >
+       <div  v-if="movie.title && movie.poster_path" >
           <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`amovie${movie.id}` }}">
              <Card :tvMovieObj="movie" type="movie"/>
           </NuxtLink>
@@ -53,11 +49,11 @@
   </section  >
 <!-- can't find  -->  
    <div v-else >
-       <movieError  type="Movie"  />
+       <error type="Movie"/>
    </div>
 
  </div>
-
+</main>
 </template>
 
 <script>
