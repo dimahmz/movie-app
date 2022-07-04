@@ -1,6 +1,6 @@
 <template>
-  <div style="background:#14532d;" class="w-40 h-70  md:w-52 md:h-84 relative text-white  relative" >
-    <img class=" hover:opacity-75 transition-all"
+  <div style="background:#14532d;" class="w-40 h-70 md:w-52 md:h-84 relative text-white  relative" >
+    <img class=" hover:opacity-75 transition-all  h-66  md:h-80"
      :src="`https://image.tmdb.org/t/p/w500/${this.tvMovieObj.poster_path}`"   :alt="imgAlt"/>
      <div class="text-center text-base sm:text-lg hover:underline " >
            <h1  v-if="type=='movie'" >

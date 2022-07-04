@@ -11,7 +11,7 @@
  <!-- inputs section  -->
   <div class="text-white flex flex-col items-center justify-center  space-x-0    py-6 max-w-4xl space-y-5  mx-auto md:flex-row  md:space-y-0 md:space-x-16  md:items-center" >
    <div>
-       <h1 class="mb-4 text-lg">Find any TV shows </h1>
+       <h1 class="mb-4 text-lg">Find any TV show </h1>
 
        <input type="text" 
         class="text-black px-2 shadow-sm w-48 h-7 border-gray-900  rounded-lg   mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-gray-900 " 

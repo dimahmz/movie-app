@@ -2,17 +2,17 @@
 
 <div class="relative bg-black ">
   <img 
-  class="h-screen w-full opacity-95 object-cover"
+  class="h-screen w-full opacity-90 object-cover"
    src="@/static/images/backimg.jpg" alt="random movies on a single image ">
    
 
   <div 
-    class="absolute w-full top-16 md:top-24   text-white p-8">
+    class="absolute w-full top-16 md:top-20   text-white p-8">
        <h1 
        class="text-white text-4xl md:font-black font-extrabold text-center"
           >welcom to WMoviE </h1>
       <p style="max-width:600px;" 
-        class="text-2xl mx-auto text-center tracking-wide     font-medium font-medium mt-16 sm:mt-32 " >Watch movies online free full movie - Watch hd movies online and   download free hd movies online with WMoviE With our free streaming service, you can watch full movies online without registration.</p>
+        class="text-lg mx-auto sm:text-2xl text-center tracking-wide  font-medium mt-16 sm:mt-32 " >Watch movies online free full movie - Watch hd movies online and   download free hd movies online with WMoviE With our free streaming service, you can watch full movies online without registration.</p>
     <div class="flex justify-around items-center my-16  sm:justify-center sm:space-x-10" >
        <button> 
           <NuxtLink 

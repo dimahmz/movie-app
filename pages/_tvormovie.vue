@@ -6,9 +6,9 @@
   <span @click="goBack" class="my-10 mx-5 text-2xl hover:text-red">
     <IconsBackArrow/>
   </span>
-   <h1 class="text-center mb-10 text-4xl font-bold tracking-widest md:mb-20" >{{title}}</h1>
+   <h1 class="text-center mb-10 text-2xl md:text-4xl font-bold tracking-widest md:mb-20" >{{title}}</h1>
 
-  <div  class="sm:flex  sm:justify-between md:justify-around sm:mb-28  ">
+  <div  class="sm:flex sm:justify-between md:justify-around sm:mb-28  ">
 
     <div   class="self-center" >
        <img 
@@ -19,8 +19,8 @@
 
   <!-- the story -->
     <div>
-       <h1  class="text-2xl mt-10 underline tracking-wide sm:ml-4">STORY :</h1>
-         <p style="max-width:440px;" class="mx-auto ml-4 text-2xl font-medium my-8 mb-7 tracking-wide" >{{tvANDmovie.overview}}</p>  
+       <h1  class="text-2xl  mt-10 underline tracking-wide sm:ml-4 sm:text-4xl">STORY :</h1>
+         <p style="max-width:440px;" class="text-xl sm:text-2xl mx-auto ml-4 my-8 mb-7 tracking-wide" >{{tvANDmovie.overview}}</p>  
      </div>
 
  </div>
@@ -41,7 +41,7 @@
 
    <section
       style="max-width:600px;"
-       class="py-10 px-5 flex flex-col text-2xl space-y-5 md:justify-center " >
+       class="py-10 px-5 flex flex-col text-lg sm:text-xl space-y-5 md:justify-center " >
        <div  class="flex justify-between sm:space-x-10 md:pace-x-18" >
             <p>Popularity :</p>
             <p>{{tvANDmovie.popularity}}

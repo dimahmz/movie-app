@@ -1,7 +1,7 @@
 <template>
 <transition  name="sideBare" >
 
-   <nav v-if="showSideBar" style="background:#0a361b;"  class="fixed z-10 left-0 top-0 w-3/5 py-5 px-3 bg-indigo-700 text-center flex flex-col items-center justify-between shadow-indigo-500 text-xl font-light font-sans overflow-y-hidden h-screen">
+   <nav v-if="showSideBar" style="background:#0a361b;"  class="fixed z-10 left-0 top-0 w-3/5 py-5 px-3 bg-indigo-700 text-center flex flex-col items-center justify-between shadow-indigo-500 text-xl font-light font-sans overflow-y-hidden h-screen overflow-auto">
 
     <span  class="absolute right-10 hover:text-black "  @click="closeSideBar" > <iconsClose  /></span>
 
