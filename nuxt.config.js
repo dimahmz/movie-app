@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  mode: 'jit',
   head: {
     title: 'movie-app',
     htmlAttrs: {
@@ -15,10 +16,37 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  theme: {
+    screens: {
+      'vsm': '400px',
+      'sm': '646px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
+    colors: {
+      bulest: '#164e63'
+    }
+  },
+  //  loding pages
+  loading: {
+    color: 'black',
+    failedColor: 'red',
+    height: '5px',
+    continuous: true,
+    throttle: 0,
+    duration: 3000
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
+  variants: {
+    extend: {
+      scale: ['group-hover', 'hover'],
+    }
+  },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
