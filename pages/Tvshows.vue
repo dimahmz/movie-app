@@ -1,12 +1,11 @@
 <template >
 
-<main   class="min-h-screen bg-black" >
-   
+<main   class="min-h-screen bg-black">
 <!-- error occurred while fetching -->
 <error v-if="$fetchState.error" type="error"/> 
 <!-- loading while fetching -->
-<Loading v-if="$fetchState.pending"/>
 <div v-else class="pb-5 pt-10 px-8 bg-black">
+   <Loading v-if="$fetchState.pending"/>
 
  <!-- inputs section  -->
   <div class="text-white flex flex-col items-center justify-center  space-x-0    py-6 max-w-4xl space-y-5  mx-auto md:flex-row  md:space-y-0 md:space-x-16  md:items-center" >
@@ -39,26 +38,24 @@
 <!-- tvshows grid -->
   
   <section 
-   class="max-w-4xl justify-center py-5  bg-gray mx-auto flex flex-wrap gap-5"
-   id="tvshows-grid" 
-     v-if="TVShows.length !=0 ">
-     <div v-for="(tv , index) in TVShows" :key="index">   
-      <div   v-if="tv.name && tv.poster_path" >
-          <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`tvshow${tv.id}` }}">
-             <div class="relative">           
-                <Card :tvMovieObj="tv" type="tvshow" /> 
-             </div>   
-          </NuxtLink>
-      </div>      
+    class="max-w-4xl justify-center py-5 mx-auto flex flex-wrap gap-5"
+    id="tvshows-grid" 
+    v-if="TVShows.length != 0">
+      <div v-for="(tv , index) in TVShows" :key="index">   
+         <div>
+             <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`tvshow${tv.id}`}}">
+               <div class="relative">           
+                  <Card :tvMovieObj="tv" type="tvshow" /> 
+               </div>   
+             </NuxtLink>
+         </div>      
       </div>
-
    </section  >
-
  <!-- can't find component -->
     <div v-else > 
           <error type="Tv Show"/>
-     </div>
-   </div>
+    </div>
+ </div>
 </main>
 </template>
 
@@ -86,7 +83,6 @@ async fetch(){
             return;
         }
      await this.queredTvshow()
-     
 },
   methods:{
      async fetchShows(type) {
@@ -94,10 +90,10 @@ async fetch(){
       for(let i =1;i<5;i++){
          let tvshowsData = axios.get(`https://api.themoviedb.org/3/tv/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=${i}`);
          let tvshowsObj = await tvshowsData;
-         tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
+         tvshowsObj.data.results.forEach((tvs) => {if (tvs.name && tvs.poster_path && tvs.vote_average)  this.TVShows.push(tvs)});
+         
       }
-    console.log(this.TVShows);
-
+      
 },
 
        async queredTvshow(){
@@ -105,9 +101,8 @@ async fetch(){
             let tvshowsObj = await searchedTvshows
             this.query=""
             this.TVShows = []
-            tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
-            // console.log(this.TVShows);
-
+            tvshowsObj.data.results.forEach((tvs) => {if(tvs.name && tvs.poster_path && tvs.vote_average) this.TVShows.push(tvs); });
+            
        }
     }
    

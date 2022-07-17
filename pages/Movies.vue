@@ -1,6 +1,5 @@
 <template >
-
-<main class="min-h-screen bg-black"  >
+<main class="min-h-screen  bg-black" @click="clicked" >
 <!-- error occurred while fetching -->
 <error v-if="$fetchState.error" type="error"/>
    <!-- loading while fetching -->
@@ -36,12 +35,12 @@
 <!-- MOvies grid -->
 
   <section 
-   class="max-w-4xl py-5 justify-center bg-gray mx-auto flex flex-wrap gap-5"
+   class="max-w-4xl py-5 justify-center mx-auto flex flex-wrap gap-5"
    v-if="MOVIES.length !=0 "  id="movies-grid" >
 
-     <div v-for="(movie , index) in MOVIES" :key="index">
-       <div  v-if="movie.title && movie.poster_path">
-          <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`amovie${movie.id}` }}">
+     <div v-for="(movie , index) in MOVIES" :key="index" >
+        <div>
+           <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`amovie${movie.id}` }}">
              <Card :tvMovieObj="movie" type="movie"/>
           </NuxtLink>
        </div>
@@ -60,8 +59,6 @@
 import axios from 'axios'
 export default {
    scrollToTop: false,
-   
-
     data() {
         return {
             MOVIES: [],
@@ -82,6 +79,11 @@ export default {
         await this.quearedMovie();
     },
     methods: {
+      clicked(){
+      
+        $nuxt.$emit("outsideClick")
+
+      },
       // scroll to the top function
         // topScroll() {
         //     window.scrollTo(0, 0);
@@ -93,15 +95,14 @@ export default {
             // console.log(searchedMovieObj.data.results)
             this.query=""
             this.MOVIES = []
-           searchedMovieObj.data.results.forEach((movie) => { this.MOVIES.push(movie); })
-          //  console.log( this.MOVIES[0].genre_ids)
+           searchedMovieObj.data.results.forEach((movie) => { if(movie.title && movie.poster_path && movie.vote_average) this.MOVIES.push(movie)})
         },
         async fetchMovies(type) {
             this.MOVIES = [];
             for(let i=1;i<10;i++){
                 let PopMoviesData = axios.get(`https://api.themoviedb.org/3/movie/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&page=${i}`);
                 let moviesObj = await PopMoviesData;
-                moviesObj.data.results.forEach((movie) => { this.MOVIES.push(movie); });
+                moviesObj.data.results.forEach((movie) => { if(movie.title && movie.poster_path && movie.vote_average) this.MOVIES.push(movie)});
             }
         },
       
