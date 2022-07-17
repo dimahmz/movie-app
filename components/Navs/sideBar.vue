@@ -40,13 +40,25 @@
 export default {
 data(){
   return{
-    showSideBar:true
+    showSideBar:false
   }
 },
 methods:{
   closeSideBar(){
     this.showSideBar=false
   }
+},
+created(){
+  this.$nuxt.$on("outsideClick",()=>{
+      this.showSideBar=false;
+  });
+  this.$nuxt.$on("toggleSideBar",()=>{
+      this.showSideBar=!this.showSideBar;
+  });
+
+
+
+
 }
 
 
@@ -54,16 +66,16 @@ methods:{
 </script>
 
 <style>
-    .sideBare-enter-active,
+    /* .sideBare-enter-active,
     .sideBare-leave-active
     {
         transition: all 1s ease;
     }
-    .sideBare-enter-to, .sideBare-leave-from {
+    .sideBare-enter-to , .sideBare-leave-from {
      transform: translateX(100%);
     }
     .sideBare-leave-to ,.sideBare-enter-from {
         transform: translateX(-100%);
-    }
+    } */
 
 </style >

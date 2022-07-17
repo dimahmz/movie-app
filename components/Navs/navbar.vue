@@ -1,13 +1,12 @@
-<template  >
+<template>
   <nav
     id="top"
-    style="background:#14532d;"
-    class="relative w-full py-3 px-4 bg-bulest text-indigo-50 flex justify-between font-sans  shadow-indigo-500">
+    class="thenav bg-green mx-auto relative py-3 px-4 text-indigo-50 flex justify-between">
    <NuxtLink to="/">
-    <h1  class="font-black hover:text-black text-2xl tracking-widest" >WMoviE</h1>
+       <h1  class="font-black hover:text-black text-2xl tracking-widest" >WMoviE</h1>
     </NuxtLink>
    <!--  @click="toggleBar"  -->
-    <NavsSideBar class="block sm:hidden " v-if="showSideBar"/>
+    <NavsSideBar class="block sm:hidden " />
    <div class="sm:hidden inline-block">
     <div @click="toggleBar" >
       <iconsIconBar class="hover:text-black" />
@@ -28,19 +27,25 @@
 <script>
 
 export default{
-name:"navbar",
+name:"thenavbar",
 
-data(){
- return{
-  showSideBar:false
- }
-},
 methods:{
 toggleBar(){
-  this.showSideBar=!this.showSideBar
- console.log(this.showSideBar)
+  $nuxt.$emit("toggleSideBar")
 }
 }
 
 }
 </script>
+<style>
+  
+/* .thenav{
+   @apply container mx-auto relative py-3 px-4 text-indigo-50 flex justify-between;
+   @apply font-sans  shadow-indigo-500;    
+  } */
+/* .thenav{
+@apply bg-red-900 container mx-auto relative py-3 px-4 text-indigo-50 flex justify-between;
+
+} */
+
+</style>
