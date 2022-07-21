@@ -1,12 +1,18 @@
 <template >
-<main class="min-h-screen  bg-black" @click="clicked" >
-<!-- error occurred while fetching -->
+<main class="min-h-screen bg-black"  @click="clicked"   >
+  <!-- error occurred while fetching -->
 <error v-if="$fetchState.error" type="error"/>
-   <!-- loading while fetching -->
+  <!-- loading while fetching -->
 <Loading class="bg-black" v-if="$fetchState.pending" />
-<div v-else class="pb-5 pt-10 px-8 " >
-<div class="text-white flex flex-col items-center justify-center  space-x-0    py-6 max-w-4xl space-y-5  mx-auto md:flex-row  md:space-y-0 md:space-x-16  md:items-center" >
-   <div>
+<div  v-else class="pb-5 pt-10 px-8 " >
+<div class="text-white flex flex-col items-center justify-center  space-x-0  py-6 max-w-4xl space-y-5  mx-auto md:flex-row  md:space-y-0 md:space-x-16  md:items-center" >
+    <!--scroll to the top  -->
+    <div v-if="upArrow" @click="topScroll" 
+       class="fixed z-50 top-550 right-4 grid place-items-center w-5x5 h-5x5 rounded-full cursor-pointer bg-green" >
+      <iconsUp/>
+    </div>
+    <!-- inputs -->
+     <div>
        <h1 class="mb-4 text-lg">Find any Movie </h1>
 
        <input type="text" 
@@ -20,7 +26,7 @@
    </div>
    <div> 
       <h1 class="mb-4 text-lg">Select type</h1>
-      <select class="w-48 h-7 text-black  mb-4 rounded-lg py-1 px-2"     v-model="moviesTypes">
+      <select class="w-48 h-7 text-black  mb-4 rounded-lg py-1 px-2" v-model="moviesTypes">
          <option value="popular">  Popular</option>
                <option  value="top_rated">top rated</option>
                <option  value="now_playing">  now playing </option>
@@ -63,7 +69,8 @@ export default {
         return {
             MOVIES: [],
             query: "",
-            moviesTypes:"popular"
+            moviesTypes:"popular",
+            upArrow:false
         }
     },
      head() {
@@ -78,37 +85,42 @@ export default {
         } 
         await this.quearedMovie();
     },
+    mounted(){
+      this.onScroll()
+    },
     methods: {
-      clicked(){
-      
+      clicked(){    
         $nuxt.$emit("outsideClick")
 
       },
       // scroll to the top function
-        // topScroll() {
-        //     window.scrollTo(0, 0);
-        //     console.log("to the top ")
-        // },
-        async quearedMovie() {
+      onScroll() {
+        window.addEventListener('scroll',()=>{
+          window.scrollY>999? this.upArrow=true : this.upArrow=false
+          })
+      },
+      topScroll(){
+         window.scrollTo(0,0)
+      },
+      async quearedMovie() {
             let movieData = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
             let searchedMovieObj = await movieData;
             // console.log(searchedMovieObj.data.results)
             this.query=""
             this.MOVIES = []
            searchedMovieObj.data.results.forEach((movie) => { if(movie.title && movie.poster_path && movie.vote_average) this.MOVIES.push(movie)})
-        },
-        async fetchMovies(type) {
+      },
+      async fetchMovies(type) {
             this.MOVIES = [];
             for(let i=1;i<10;i++){
                 let PopMoviesData = axios.get(`https://api.themoviedb.org/3/movie/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&page=${i}`);
                 let moviesObj = await PopMoviesData;
                 moviesObj.data.results.forEach((movie) => { if(movie.title && movie.poster_path && movie.vote_average) this.MOVIES.push(movie)});
             }
-        },
+      },
       
     } 
 }
 </script>
 <style>
-
 </style>
