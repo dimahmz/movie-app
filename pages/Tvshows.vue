@@ -43,7 +43,7 @@
     v-if="TVShows.length != 0">
       <div v-for="(tv , index) in TVShows" :key="index">   
          <div>
-             <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`tvshow${tv.id}`}}">
+             <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`${tv.id}`}, query:{name:'tvshow'}}">
                <div class="relative">           
                   <Card :tvMovieObj="tv" type="tvshow" /> 
                </div>   

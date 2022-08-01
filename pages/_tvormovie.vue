@@ -91,6 +91,7 @@ export default {
   layout: "noNavbar",
   data(){
     return{
+      type:this.$route.query.name,
       id:this.$route.params.tvormovie,
       tvANDmovie:{},
       release:"",
@@ -105,7 +106,7 @@ export default {
    //fill infos
     tvshowORmovifos(the_tvANDmovie){
 
-       if(this.id.slice(0,6)=="amovie"){
+       if(this.type=="movie"){
         this.title=the_tvANDmovie.title
         this.release=the_tvANDmovie.release_date
         this.original_title=the_tvANDmovie.original_title
@@ -131,13 +132,11 @@ export default {
     }
     },
   async fetch(){
-    if(this.id.slice(0,6)=="tvshow")
-         var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/tv/${this.id.slice(6)}?api_key=c695182479fa9880b1a52cd4525a0caf`)
-    else  var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/movie/${this.id.slice(6)}?api_key=c695182479fa9880b1a52cd4525a0caf`)
+    if(this.type=="tvshow")
+         var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/tv/${this.id}?api_key=c695182479fa9880b1a52cd4525a0caf`)
+    else  var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/movie/${this.id}?api_key=c695182479fa9880b1a52cd4525a0caf`)
     let tvshowORmovieObj= await tvshowORmovieData
     this.tvANDmovie=tvshowORmovieObj.data
-    this.tvshowORmovifos(this.tvANDmovie)
-     console.log(this.tvANDmovie)
    },
    fetchDelay:1000
   }

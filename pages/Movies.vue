@@ -46,7 +46,7 @@
 
      <div v-for="(movie , index) in MOVIES" :key="index" >
         <div>
-           <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`amovie${movie.id}` }}">
+           <NuxtLink :to="{ name: 'tvormovie' , params:{tvormovie:`${movie.id}`}, query:{name:'movie'}}">
              <Card :tvMovieObj="movie" type="movie"/>
           </NuxtLink>
        </div>
