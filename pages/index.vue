@@ -7,7 +7,7 @@
    
 
   <div 
-    class="absolute w-full top-16 md:top-20   text-white p-8">
+    class="absolute w-full top-16 md:top-20 text-white p-8">
        <h1 
        class="text-white text-4xl md:font-black font-extrabold text-center"
           >welcom to WMoviE </h1>
