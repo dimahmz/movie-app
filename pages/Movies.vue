@@ -1,7 +1,5 @@
 <template>
   <main class="min-h-screen bg-black" @click="clicked">
-    <!-- error occurred while fetching -->
-    <error v-if="$fetchState.error" type="error" />
     <!-- loading while fetching -->
     <Loading class="bg-black" v-if="$fetchState.pending" />
     <div v-else class="pb-5 pt-10 px-8">
@@ -12,7 +10,7 @@
         <div
           v-if="upArrow"
           @click="topScroll"
-          class="fixed z-50 top-550 right-4 grid place-items-center w-5x5 h-5x5 rounded-full cursor-pointer bg-green"
+          class="fixed z-50 bottom-3 right-4 grid place-items-center w-5x5 h-5x5 rounded-full cursor-pointer bg-green"
         >
           <iconsUp />
         </div>
@@ -98,13 +96,15 @@
         <error type="Movie" />
       </div>
     </div>
+    <!-- error occurred while fetching -->
+    <error v-if="$fetchState.error" type="error" />
   </main>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  scrollToTop: false,
+  scrollToTop: true,
   data() {
     return {
       MOVIES: [],
@@ -120,12 +120,20 @@ export default {
       title: "movies page",
     };
   },
+  fetchOnServer: false,
+  watch: { "$route.query": "$fetch" },
   async fetch() {
+    // console.log(this.$nuxt.context);
+    // console.log(this.$fetchState.timestamp - Date.now());
     if (this.query === "") {
       await this.fetchMovies(this.moviesTypes, 1);
       return;
     }
+
     await this.quearedMovie();
+  },
+  activated() {
+    if (this.$fetchState.timestamp <= Date.now() - 70000) this.$fetch();
   },
   mounted() {
     this.onScroll();
@@ -151,7 +159,7 @@ export default {
     // scroll to the top function
     onScroll() {
       window.addEventListener("scroll", () => {
-        window.scrollY > 999 ? (this.upArrow = true) : (this.upArrow = false);
+        window.scrollY > 150 ? (this.upArrow = true) : (this.upArrow = false);
       });
     },
     topScroll() {
@@ -171,11 +179,11 @@ export default {
       });
     },
     async fetchMovies(type, page) {
-      this.MOVIES = [];
       let PopMoviesData = axios.get(
         `https://api.themoviedb.org/3/movie/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&page=${page}`
       );
       let moviesObj = await PopMoviesData;
+      this.MOVIES = [];
       moviesObj.data.results.forEach((movie) => {
         if (
           movie.title &&
