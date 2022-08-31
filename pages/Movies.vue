@@ -15,13 +15,13 @@
           <iconsUp />
         </div>
         <!-- inputs -->
-        <div>
-          <h1 class="mb-4 text-lg">Find any Movie</h1>
-
+        <div class="relative">
+          <label class="block text-lg">Find any Movie</label>
           <input
             type="text"
-            class="text-black px-2 shadow-sm w-48 h-7 border-gray-900 rounded-lg mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-gray-900"
+            class="px-4 appearance-none outline-none text-gray-800"
             @keyup.enter="$fetch"
+            @keyup="quearedMovie(query, 0)"
             v-model="query"
           />
           <button
@@ -31,11 +31,12 @@
           >
             search
           </button>
+          <searchDropDown :Movies="searchedMovies" />
         </div>
         <div>
-          <h1 class="mb-4 text-lg">Select type</h1>
+          <label class="block text-lg">Select type</label>
           <select
-            class="w-48 h-7 text-black mb-4 rounded-lg py-1 px-2"
+            class="w-48 h-7 text-black mb-4 rounded-lg py-1 px-2 cursor-pointer"
             v-model="moviesTypes"
           >
             <option value="popular">Popular</option>
@@ -113,6 +114,7 @@ export default {
       upArrow: false,
       pages: [1, 2, 3, 4, 5, 6, 7, 8],
       currentPage: 1,
+      searchedMovies: [],
     };
   },
   head() {
@@ -129,8 +131,8 @@ export default {
       await this.fetchMovies(this.moviesTypes, 1);
       return;
     }
-
-    await this.quearedMovie();
+    await this.quearedMovie(this.query, true);
+    this.searchedMovies.length = 0;
   },
   activated() {
     if (this.$fetchState.timestamp <= Date.now() - 70000) this.$fetch();
@@ -139,12 +141,18 @@ export default {
     this.onScroll();
   },
   methods: {
+    // keyupHandler() {
+    //   this.quearedMovie()
+    //   console.log("a key was press");
+    // },
     clicked() {
       $nuxt.$emit("outsideClick");
+      this.searchedMovies = [];
+      console.log(this.searchedMovies.length);
     },
     //pagination function
     changePages(direction) {
-      if (direction == "right" && this.pages[this.pages.length - 1] < 40) {
+      if (direction === "right" && this.pages[this.pages.length - 1] < 40) {
         this.pages.push(this.pages[this.pages.length - 1] + 1);
         this.pages.shift();
       } else if (direction === "left" && this.pages[0] > 1) {
@@ -165,18 +173,31 @@ export default {
     topScroll() {
       window.scrollTo(0, 0);
     },
-    async quearedMovie() {
-      let movieData = axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`
-      );
-      let searchedMovieObj = await movieData;
-      // console.log(searchedMovieObj.data.results)
-      this.query = "";
-      this.MOVIES = [];
-      searchedMovieObj.data.results.forEach((movie) => {
-        if (movie.title && movie.poster_path && movie.vote_average)
-          this.MOVIES.push(movie);
-      });
+    async quearedMovie(query, search) {
+      if (query != "") {
+        let movieData = axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${query}`
+          ),
+          searchedMovieObj = await movieData;
+        this.searchedMovies.length = 0;
+        searchedMovieObj.data.results.forEach((movie) => {
+          if (this.searchedMovies.length > 4) return;
+          if (movie.title && movie.poster_path && movie.release_date)
+            this.searchedMovies.push(movie);
+        });
+        // this.searchedMovies = searchedMovieObj.data.results.splice(0, 5);
+        if (search) {
+          this.searchedMovies.lenght = 0;
+          this.query = "";
+          this.MOVIES = [];
+          searchedMovieObj.data.results.forEach((movie) => {
+            if (movie.title && movie.poster_path && movie.vote_average)
+              this.MOVIES.push(movie);
+          });
+        }
+      } else {
+        this.searchedMovies = [];
+      }
     },
     async fetchMovies(type, page) {
       let PopMoviesData = axios.get(
