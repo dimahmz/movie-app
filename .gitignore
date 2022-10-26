@@ -54,6 +54,7 @@ typings/
 *.tgz
 
 # Yarn Integrity file
+.yarn*
 .yarn-integrity
 
 # dotenv environment variables file
@@ -88,3 +89,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+#keys
+api_key.js

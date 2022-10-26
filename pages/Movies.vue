@@ -58,6 +58,7 @@
 
 <script>
 import axios from 'axios'
+import { myAPI_key } from '../api_key'
 export default {
    scrollToTop: false,
    
@@ -83,7 +84,7 @@ export default {
     },
     methods: {
         async quearedMovie() {
-            let movieData = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
+            let movieData = axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${myAPI_key}&language=en-US&page=1&query=${this.query}`);
             let searchedMovieObj = await movieData;
             this.query=""
             this.MOVIES = []
@@ -92,7 +93,7 @@ export default {
         async fetchMovies(type) {
             this.MOVIES = [];
             for(let i=1;i<10;i++){
-                let PopMoviesData = axios.get(`https://api.themoviedb.org/3/movie/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&page=${i}`);
+                let PopMoviesData = axios.get(`https://api.themoviedb.org/3/movie/${type}?api_key=${myAPI_key}&page=${i}`);
                 let moviesObj = await PopMoviesData;
                 moviesObj.data.results.forEach((movie) => { this.MOVIES.push(movie); });
             }

@@ -85,6 +85,7 @@
 
 <script>
 import axios from 'axios'
+import {myAPI_key} from '../api_key'
 export default {
   name: 'SelectedTvShow',
   layout: "noNavbar",
@@ -131,8 +132,8 @@ export default {
     },
   async fetch(){
     if(this.id.slice(0,6)=="tvshow")
-         var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/tv/${this.id.slice(6)}?api_key=c695182479fa9880b1a52cd4525a0caf`)
-    else  var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/movie/${this.id.slice(6)}?api_key=c695182479fa9880b1a52cd4525a0caf`)
+         var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/tv/${this.id.slice(6)}?api_key=${myAPI_key}`)
+    else  var tvshowORmovieData= axios.get(`https://api.themoviedb.org/3/movie/${this.id.slice(6)}?api_key=${myAPI_key}`)
     let tvshowORmovieObj= await tvshowORmovieData
     this.tvANDmovie=tvshowORmovieObj.data
     this.tvshowORmovifos(this.tvANDmovie)

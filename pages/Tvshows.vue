@@ -64,6 +64,7 @@
 
 <script>
  import axios from 'axios'
+ import {myAPI_key} from '../api_key'
 export default {
     scrollToTop: false,
  data(){
@@ -92,7 +93,7 @@ async fetch(){
      async fetchShows(type) {
       this.TVShows =[];
       for(let i =1;i<5;i++){
-         let tvshowsData = axios.get(`https://api.themoviedb.org/3/tv/${type}?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=${i}`);
+         let tvshowsData = axios.get(`https://api.themoviedb.org/3/tv/${type}?api_key=${myAPI_key}&language=en-US&page=${i}`);
          let tvshowsObj = await tvshowsData;
          tvshowsObj.data.results.forEach((tvs) => { this.TVShows.push(tvs); });
       }
@@ -101,7 +102,7 @@ async fetch(){
 },
 
        async queredTvshow(){
-         let searchedTvshows= axios.get(`https://api.themoviedb.org/3/search/tv?api_key=c695182479fa9880b1a52cd4525a0caf&language=en-US&page=1&query=${this.query}`);
+         let searchedTvshows= axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${myAPI_key}&language=en-US&page=1&query=${this.query}`);
             let tvshowsObj = await searchedTvshows
             this.query=""
             this.TVShows = []
